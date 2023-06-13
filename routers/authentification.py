@@ -23,9 +23,7 @@ def login(request : OAuth2PasswordRequestForm = Depends(), db : Session = Depend
     if not Hash.verify(user.mot_de_passe, request.password):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'Incorrect password')
     
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.nom_utilisateur},
-        expires_delta=access_token_expires,
+        data={"sub": user.nom_utilisateur }
     )
     return {"access_token": access_token, "token_type": "bearer"}
